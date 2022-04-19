@@ -1,8 +1,10 @@
 package com.community.sjy.web.service;
 
+import com.community.sjy.web.model.RoleType;
 import com.community.sjy.web.model.User;
 import com.community.sjy.web.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,27 +15,37 @@ import java.util.function.Supplier;
 @Service
 public class UserService {
 
+
+
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     @Transactional
     public void 회원가입(User user){
+
+        String rawPassword = user.getPassword();
+        String encPassword = encoder.encode(rawPassword);
+        user.setPassword(encPassword);
+        user.setRole(RoleType.USER);
         userRepository.save(user);
     }
 
-    @Transactional(readOnly = true)
-    public User 로그인(User user) {
-        try {
-            if(user.getId() == 0)
-            {
-            }
-            return userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("UserService : 로그인(): " + e.getMessage());
-        }
-        return user;
-    }
+//    @Transactional(readOnly = true)
+//    public User 로그인(User user) {
+//        try {
+//            if(user.getId() == 0)
+//            {
+//            }
+//            return userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.out.println("UserService : 로그인(): " + e.getMessage());
+//        }
+//        return user;
+//    }
 }
 
 /*
