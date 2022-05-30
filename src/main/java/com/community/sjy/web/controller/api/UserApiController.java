@@ -24,24 +24,9 @@ public class UserApiController {
 
     @CrossOrigin
     @PostMapping("/auth/joinProc")
-    public ResponseDto<Integer> save(@RequestBody User user){
+    public ResponseDto<Integer> save(@RequestBody User user) {
         System.out.println("API 호출 확인");
         userService.회원가입(user);
-        return new ResponseDto<Integer>(HttpStatus.OK.value(),1); // 자바오브젝트를 Json으로 바꿔서 리턴
+        return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); // 자바오브젝트를 Json으로 바꿔서 리턴
     }
-
-
-//    @CrossOrigin
-//    @PostMapping("/api/login")
-//    public ResponseEntity<Integer> login(@RequestBody User user, HttpSession session){
-//        System.out.println("Login API 호출 확인");
-//        User principal = userService.로그인(user);
-//        if(principal != null){
-//            session.setAttribute("principal",principal);
-//            return new ResponseEntity<Integer>(HttpStatus.OK);
-//        } else
-//        {
-//            return new ResponseEntity<Integer>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 }

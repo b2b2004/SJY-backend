@@ -1,6 +1,7 @@
 package com.community.sjy.web.model;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -28,25 +29,20 @@ import lombok.NoArgsConstructor;
 @Entity // User 클래스가 MYSQL 테이블이 생성됨.
 public class Board {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Id // PK를 해당 변수로 하겠다는 뜻.
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 해당 데이터베이스 번호증가 전략을 따라가겠다.
+    private Long id;
 
-    @Column(nullable = false, length = 100)
+    @Column
+    private String username;
+
+    @Column
     private String title;
 
-    @Lob // 대용량 데이터
-    private String content; // 섬머노트 라이브러르 HTML 섞여서 디자인이 됨
+    @Column
+    private String content;
 
-    private int count;
 
-    @ManyToOne(fetch = FetchType.EAGER) // Many = Board , User = One
-    @JoinColumn(name = "userId")
-    private User user; // DB는 오브젝트를 저장할 수 없다. FK, 자바는 오브젝트를 저장할 수 있다.
-
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY) // mappedBy 연관관계의 주인이 아니다 DB에 컬럼을 만들지 말아라
-    private List<Reply> reply;
-
-    @CreationTimestamp
-    private Timestamp createDate;
+    @Column
+    private LocalDateTime Board_date;
 }
