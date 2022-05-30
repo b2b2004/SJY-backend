@@ -35,16 +35,16 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     }
 
+
     //인증이나 권한이 필요한 주소요청이 있을 때 해당 필터를 타게 됨
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("인증이나 권한이 필요한 주소가 요청이 됨");
 
+        System.out.println("JwtAuthorizationFilter 실행");
         String jwtHeader = request.getHeader("Authorization");
-
+        System.out.println("JwtAuthorizationFilter 필터에서 Authorization을 잘 받앗나 :  " + jwtHeader);
         // header가 있는지 확인
-        System.out.println("jwtHeader " + jwtHeader);
-        if(jwtHeader == null || jwtHeader.startsWith(("Bearer"))){
+        if(jwtHeader == null || !jwtHeader.startsWith(("Bearer"))){
             chain.doFilter(request,response);
             return;
         }
@@ -57,10 +57,9 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
         if(username != null){
             User userEntity = userRepository.findByUsername(username);
-
             PrincipalDetail principalDetail = new PrincipalDetail(userEntity);
 
-
+            System.out.println("Authorization username : "+username );
             //JWT토큰 서명을 통해서 서명이 정상이면 Authentication 객체를 만들어준다
             Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetail,null, principalDetail.getAuthorities());
 
