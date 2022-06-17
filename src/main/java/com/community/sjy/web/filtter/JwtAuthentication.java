@@ -70,7 +70,7 @@ private final AuthenticationManager authenticationManager;
         //HMAC Hash암호 방식
         String jwtToken = JWT.create()
                 .withSubject(principalDetail.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis()+(60000*10))) //만료시간 10분
+                .withExpiresAt(new Date(System.currentTimeMillis()+(60000*1000))) //만료시간 10분 60000*10
                 .withClaim("username", principalDetail.getUsername())
                 .withClaim("password", principalDetail.getPassword())
                 .sign(Algorithm.HMAC512("SJY"));

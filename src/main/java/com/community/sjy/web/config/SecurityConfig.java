@@ -72,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                       .addFilter(new JwtAuthentication(authenticationManager()))
                       .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
               .authorizeHttpRequests()
-              .antMatchers("/" ,"/auth/**" , "/js/**" , "/css/**", "/image/**","/board/**","/oauth2/**", "/comment/**")
+              .antMatchers("/" ,"/auth/**" , "/js/**" , "/css/**", "/image/**","/board/**","/oauth2/**", "/comment/**", "/manager/**" , "/sopBoard/**")
               .permitAll()
               .anyRequest()
               .authenticated()
