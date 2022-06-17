@@ -49,7 +49,6 @@ public class UserController {
     public ResponseEntity<?> user(Authentication authentication){
         PrincipalDetail principal = (PrincipalDetail) authentication.getPrincipal();
         System.out.println("principal/profile = "+principal);
-
         return new ResponseEntity<>(principal, HttpStatus.OK);
     }
 
@@ -78,6 +77,16 @@ public class UserController {
         return new ResponseEntity<>(boardService.프로필게시판가져오기(username), HttpStatus.OK); // 200
     }
 
+    @GetMapping("/manager")
+    public ResponseEntity<?> findbyAllUsername(){
+        return new ResponseEntity<>(userService.모두가져오기(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/manager/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable Integer id){
+        System.out.println("manager id = "+ id);
+        return new ResponseEntity<>(userService.삭제하기(id), HttpStatus.OK);
+    }
 
 /*
     @GetMapping("/auth/kakao/callback")

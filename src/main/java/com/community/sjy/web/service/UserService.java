@@ -1,6 +1,7 @@
 package com.community.sjy.web.service;
 
 import com.community.sjy.web.config.auth.PrincipalDetailService;
+import com.community.sjy.web.model.Board;
 import com.community.sjy.web.model.CheckPw;
 import com.community.sjy.web.model.RoleType;
 import com.community.sjy.web.model.User;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -76,4 +78,8 @@ public class UserService {
         return "비밀번호 변경 성공";
     }
 
+    @Transactional(readOnly = true)
+    public List<User> 모두가져오기(){
+        return userRepository.findAll();
+    }
 }

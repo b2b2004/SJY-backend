@@ -46,7 +46,7 @@ public class Oauth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
    //     super.onAuthenticationSuccess(request, response, authentication);
 
 
-        String url = makeRedirectUrl(jwtToken);
+        String url = makeRedirectUrl("Bearer "+jwtToken);
         System.out.println("url: " + url);
         getRedirectStrategy().sendRedirect(request, response, url);
 
