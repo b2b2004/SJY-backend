@@ -56,5 +56,4 @@ public class SopBoardController {
         return new ResponseEntity<>(sopBoardService.한건가져오기(id), HttpStatus.OK); // 200
     }
 
-
 }
