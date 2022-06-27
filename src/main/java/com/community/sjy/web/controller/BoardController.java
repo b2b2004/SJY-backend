@@ -36,25 +36,21 @@ public class BoardController {
         return new ResponseEntity<>(boardService.저장하기(board), HttpStatus.CREATED); // 200
     }
 
-    @CrossOrigin
     @GetMapping("/board")
     public ResponseEntity<?> findAll() {
         return new ResponseEntity<>(boardService.모두가져오기(), HttpStatus.OK); // 200
     }
 
-    @CrossOrigin
     @GetMapping("/board/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         return new ResponseEntity<>(boardService.한건가져오기(id), HttpStatus.OK); // 200
     }
 
-    @CrossOrigin
     @PutMapping("/board/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Board board) {
         return new ResponseEntity<>(boardService.수정하기(id, board), HttpStatus.OK); // 200
     }
 
-    @CrossOrigin
     @DeleteMapping("/board/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
         return new ResponseEntity<>(boardService.삭제하기(id), HttpStatus.OK); // 200
