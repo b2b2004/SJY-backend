@@ -44,7 +44,14 @@ public class ContestBoardController {
     }
 
     @DeleteMapping("/contestBoard/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Long id) {
+    public ResponseEntity<?> deleteById(@PathVariable Long id,@RequestBody String contestimage) {
+        String UPLOAD_PATH = "C:\\workspace\\springbootwork\\SJY\\SJY-frontend\\src\\image\\ContestImage"; // 공모전 이미지 업로드 위치
+        String fileId = contestimage;
+        File fileDelete = new File(UPLOAD_PATH, fileId);
+        if(fileDelete.exists()) { // 파일이 존재하면 삭제
+            fileDelete.delete();
+        }
+        System.out.println("contestimage= "+ contestimage);
         return new ResponseEntity<>(contestBoardService.삭제하기(id), HttpStatus.OK); // 200
     }
 

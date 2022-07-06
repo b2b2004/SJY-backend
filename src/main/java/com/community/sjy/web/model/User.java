@@ -47,8 +47,11 @@ public class User {
     private String provider;
     private String providerId;
 
+    @Column
+    private  String image;
+
     @Builder
-    public User(int id, String username, String password, String email, RoleType role, Timestamp createDate, String provider, String providerId) {
+    public User(int id, String username, String password, String email, RoleType role, Timestamp createDate, String provider, String providerId, String image) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -57,5 +60,6 @@ public class User {
         this.createDate = createDate;
         this.provider = provider;
         this.providerId = providerId;
+        this.image = image;
     }
 }
