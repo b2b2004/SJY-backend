@@ -82,4 +82,21 @@ public class UserService {
     public List<User> 모두가져오기(){
         return userRepository.findAll();
     }
+
+    @Transactional
+    public User 프로필이미지저장(String username,String imageName){
+        User user = userRepository.findByUsername(username);
+        System.out.println(user);
+        user.setImage(imageName);
+        return user;
+    }
+
+
+    @Transactional
+    public User 프로필이미지삭제(String username){
+        User user = userRepository.findByUsername(username);
+        System.out.println(user);
+        user.setImage(null);
+        return user;
+    }
 }
