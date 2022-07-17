@@ -1,6 +1,7 @@
 package com.community.sjy.web.controller;
 
 import com.community.sjy.web.config.auth.PrincipalDetail;
+import com.community.sjy.web.model.SopNotice;
 import com.community.sjy.web.model.StudyOrProjectBoard;
 import com.community.sjy.web.service.SopBoardService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class SopBoardController {
         studyOrProjectBoard.setDate(LocalDateTime.now());
         studyOrProjectBoard.setUsername(principal.getUser().getUsername());
         System.out.println("==============================================");
-        System.out.println(studyOrProjectBoard.getTechStack());
+        System.out.println(studyOrProjectBoard.getRoleType());
         System.out.println("==============================================");
         System.out.println(authentication);
         return new ResponseEntity<>(sopBoardService.저장하기(studyOrProjectBoard), HttpStatus.OK);
@@ -45,15 +46,29 @@ public class SopBoardController {
         return new ResponseEntity<>(sopBoardService.최신게시판(pageable),HttpStatus.OK);
     }
 
-//    @GetMapping("/sopBoard/{id}")
-//    public ResponseEntity<?> findById(@PathVariable Long id) {
-//
-//        return new ResponseEntity<>(sopBoardService.한건가져오기(id), HttpStatus.OK); // 200
-//    }
-
     @PostMapping("/sopBoard/{id}")
     public ResponseEntity<?> findById(@RequestBody Long id) {
         return new ResponseEntity<>(sopBoardService.한건가져오기(id), HttpStatus.OK); // 200
+    }
+
+
+    @PostMapping("/sopBoard/NoticeWrite")
+    public ResponseEntity<?> manageNoticeWrite(@RequestBody SopNotice sopNotice){
+        System.out.println("==============================================");
+        System.out.println("sopNotice = " + sopNotice);
+        System.out.println("==============================================");
+        return new ResponseEntity<>(sopBoardService.공지사항저장하기(sopNotice), HttpStatus.OK);
+    }
+
+    @GetMapping("/sopBoard/ManageNotice/{sopBoardNoticeId}")
+    public ResponseEntity<?> manageNotice(@PathVariable Long sopBoardNoticeId){
+        System.out.println(sopBoardNoticeId);
+        return new ResponseEntity<>(sopBoardService.공지사항가져오기(sopBoardNoticeId), HttpStatus.OK);
+    }
+
+    @GetMapping("/sopBoard/ManageNoticeDetail/{sopBoardNoticeId}")
+    public ResponseEntity<?> manageNoticeDetail(@PathVariable Long sopBoardNoticeId){
+        return new ResponseEntity<>(sopBoardService.공지사항한건가져오기(sopBoardNoticeId), HttpStatus.OK);
     }
 
 }
