@@ -53,6 +53,9 @@ public class StudyOrProjectBoard {
     @Column
     private  String techStack;
 
+    @Enumerated(EnumType.STRING)
+    private RoleType roleType;
+
     @Column
     private LocalDateTime date;
 

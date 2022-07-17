@@ -56,7 +56,6 @@ public class BoardController {
         return new ResponseEntity<>(boardService.삭제하기(id), HttpStatus.OK); // 200
     }
 
-    // 등록 시간
 
 
 }
