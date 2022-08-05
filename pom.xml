@@ -107,12 +107,6 @@
         </dependency>
 
 
-
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-        </dependency>
-
         <!-- Data Binding -->
         <dependency> <!-- JSON 데이터 처리를 위한 dependency -->
             <groupId>com.fasterxml.jackson.core</groupId>

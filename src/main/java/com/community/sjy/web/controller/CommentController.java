@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+
 @RequiredArgsConstructor
 @RestController
 public class CommentController {
@@ -17,6 +19,7 @@ public class CommentController {
     @PostMapping("/comment")
     public ResponseEntity<?> save(@RequestBody Comment comment, Authentication authentication){
         comment.setUsername(authentication.getName());
+        comment.setBoard_date(LocalDateTime.now());
         System.out.println("comment = " +comment);
         return new ResponseEntity<>(commentService.저장하기(comment), HttpStatus.CREATED);
     }

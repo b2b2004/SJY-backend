@@ -12,19 +12,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-public class StudyOrProjectBoard {
-
+@Entity // User 클래스가 MYSQL 테이블이 생성됨.
+public class SopQnaBoard {
 
     @Id // PK를 해당 변수로 하겠다는 뜻.
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 해당 데이터베이스 번호증가 전략을 따라가겠다.
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private BoardType boardType;
-
-    @Enumerated(EnumType.STRING)
-    private MeetType meetType;
+    @Column
+    private Long sopboardId;
 
     @Column
     private String username;
@@ -36,28 +32,8 @@ public class StudyOrProjectBoard {
     private String content;
 
     @Column
-    private String area;
-
-    @Column
-    private int recruitment;
-
-    @Column
-    private String Duration_start;
-
-    @Column
-    private String Duration_end;
-
-    @Column
     private int hit;
 
     @Column
-    private  String techStack;
-
-    @Enumerated(EnumType.STRING)
-    private RoleType roleType;
-
-    @Column
-    private LocalDateTime date;
-
-
+    private LocalDateTime Board_date;
 }

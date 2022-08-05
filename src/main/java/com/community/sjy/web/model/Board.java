@@ -42,7 +42,6 @@ public class Board {
     @Column
     private String content;
 
-
     @Column
     private LocalDateTime Board_date;
 }
