@@ -1,10 +1,7 @@
 package com.community.sjy.web.service;
 
 import com.community.sjy.web.config.auth.PrincipalDetailService;
-import com.community.sjy.web.model.Board;
-import com.community.sjy.web.model.CheckPw;
-import com.community.sjy.web.model.RoleType;
-import com.community.sjy.web.model.User;
+import com.community.sjy.web.model.*;
 import com.community.sjy.web.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -45,7 +42,6 @@ public class UserService {
 
     @Transactional
     public void 회원가입(User user) {
-
         String rawPassword = user.getPassword();
         String encPassword = encoder.encode(rawPassword);
         user.setPassword(encPassword);
@@ -76,6 +72,15 @@ public class UserService {
             return "현재 비밀번호가 맞지 않습니다.";
         }
         return "비밀번호 변경 성공";
+    }
+
+    @Transactional
+    public String 닉네임수정하기(int userId,String username){
+        User userEntity = userRepository.findById(userId)
+                .orElseThrow(()->new IllegalArgumentException("아이디를 잘못 입력"));
+        System.out.println(username);
+        userEntity.setUsername(username);
+        return "닉네임수정완료";
     }
 
     @Transactional(readOnly = true)

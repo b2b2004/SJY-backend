@@ -21,17 +21,12 @@ public class SopManageBoard {
     private Long sopBoardId;
 
     @Column
-    private String leader;
-
-    @Column
-    private String member;
-
-    @Column
     private String githubAddress;
 
     @Column
     private String zoomAddress;
 
     @Column
-    private String kakao_Open_Address;
+    private String kakaoOpenAddress;
+
 }
