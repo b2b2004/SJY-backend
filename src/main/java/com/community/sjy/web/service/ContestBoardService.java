@@ -4,6 +4,8 @@ import com.community.sjy.web.model.ContestBoard;
 import com.community.sjy.web.model.StudyOrProjectBoard;
 import com.community.sjy.web.repository.ContestBoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +38,10 @@ public class ContestBoardService {
         sopEntity.setHit(hit);
         return sopEntity;
     }
+
+    @Transactional
+    public Page<ContestBoard> 최신게시판(Pageable pageable)
+    {return contestBoardRepository.findAll(pageable);}
 
 
     @Transactional

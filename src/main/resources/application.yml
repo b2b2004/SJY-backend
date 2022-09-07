@@ -8,11 +8,13 @@ server:
       force: true
 
 ---
+
 spring:
   servlet:
     multipart:
       maxFileSize: 50MB
       maxRequestSize: 50MB
+
 ---
 spring:
   mvc:

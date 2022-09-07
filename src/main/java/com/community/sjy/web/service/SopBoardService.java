@@ -79,13 +79,9 @@ public class SopBoardService {
     public List<StudyOrProjectBoard> 가져오기()
     {return sopBoardRepository.findAll();}
 
-
-
     @Transactional
     public Page<StudyOrProjectBoard> 최신게시판(Pageable pageable)
     {return sopBoardRepository.findAll(pageable);}
-
-
 
     @Transactional
     public StudyOrProjectBoard 한건가져오기(Long id) {
@@ -96,5 +92,13 @@ public class SopBoardService {
         hit++;
         sopEntity.setHit(hit);
         return sopEntity;
+    }
+
+    @Transactional
+    public List<StudyOrProjectBoard> 테크이미지설정(String techStack)
+    {
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!"+techStack);
+        System.out.println(sopBoardRepository.findByTechStackLike("%"+techStack+"%"));
+        return sopBoardRepository.findByTechStackLike("%"+techStack+"%");
     }
 }
