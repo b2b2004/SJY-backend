@@ -78,8 +78,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
               .authenticated()
                       .and().oauth2Login()
                       .successHandler(oauth2SuccessHandler).userInfoEndpoint().userService(principalOauth2UserService);
-
-
               // 1.코드 받기(인증) 2.엑세스토큰(권한) 3.사용자프로필 정보 가져오기
               // 4.그 정보를 토대로 회원가입을 자동으로 진행 (이메일, 전화번호, 이름, 아이디)
     }

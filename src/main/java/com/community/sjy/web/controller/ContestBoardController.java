@@ -1,21 +1,20 @@
 package com.community.sjy.web.controller;
 
+
 import com.community.sjy.web.config.auth.PrincipalDetail;
 import com.community.sjy.web.model.ContestBoard;
-import com.community.sjy.web.model.StudyOrProjectBoard;
 import com.community.sjy.web.service.ContestBoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
-import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Random;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -53,6 +52,11 @@ public class ContestBoardController {
         }
         System.out.println("contestimage= "+ contestimage);
         return new ResponseEntity<>(contestBoardService.삭제하기(id), HttpStatus.OK); // 200
+    }
+
+    @GetMapping("/contestBoard/NewBoard")
+    public ResponseEntity<?> NewBoard(@PageableDefault(size = 9, sort = "date", direction = Sort.Direction.DESC) Pageable pageable){
+        return new ResponseEntity<>(contestBoardService.최신게시판(pageable),HttpStatus.OK);
     }
 
 }

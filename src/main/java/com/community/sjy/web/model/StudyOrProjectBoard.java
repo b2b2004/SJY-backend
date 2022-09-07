@@ -51,7 +51,7 @@ public class StudyOrProjectBoard {
     private int hit;
 
     @Column
-    private  String techStack;
+    private String techStack;
 
     @Enumerated(EnumType.STRING)
     private RoleType roleType;

@@ -96,4 +96,10 @@ public class SopBoardController {
         return new ResponseEntity<>(sopBoardService.공지사항한건가져오기(sopBoardNoticeId), HttpStatus.OK);
     }
 
+    @GetMapping("/sopBoard/MainTech/{tech}")
+    public ResponseEntity<?> MainTech(@PathVariable String tech){
+        System.out.println(tech);
+        return new ResponseEntity<>(sopBoardService.테크이미지설정(tech), HttpStatus.OK);
+    }
+
 }
