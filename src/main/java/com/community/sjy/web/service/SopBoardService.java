@@ -147,4 +147,17 @@ public class SopBoardService {
             return "Member";
         }
     }
+
+    @Transactional
+    public String 맴버제외(String username)
+    {
+        System.out.println(username);
+        StudyOrProjectBoard sop =  sopBoardRepository.findByMemberLike("%"+username+"%");
+        String member = sop.getMember();
+        member.replaceAll(username, "");
+        System.out.println(member);
+
+            return "Member";
+
+    }
 }
