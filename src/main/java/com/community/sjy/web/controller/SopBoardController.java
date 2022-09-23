@@ -1,10 +1,7 @@
 package com.community.sjy.web.controller;
 
 import com.community.sjy.web.config.auth.PrincipalDetail;
-import com.community.sjy.web.model.Board;
-import com.community.sjy.web.model.SopManageBoard;
-import com.community.sjy.web.model.SopNotice;
-import com.community.sjy.web.model.StudyOrProjectBoard;
+import com.community.sjy.web.model.*;
 import com.community.sjy.web.service.SopBoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -41,6 +38,11 @@ public class SopBoardController {
     // @PageableDefault(size = 3, sort = "id", direction = Sort.Direction.ASC) Pageable pageable
     @GetMapping("/sopBoard/NewBoard")
     public ResponseEntity<?> NewBoard(@PageableDefault(size = 3, sort = "date", direction = Sort.Direction.DESC) Pageable pageable){
+        return new ResponseEntity<>(sopBoardService.최신게시판(pageable),HttpStatus.OK);
+    }
+
+    @GetMapping("/sopBoard/MainBoard")
+    public ResponseEntity<?> MainBoard(@PageableDefault(size = 6, sort = "date", direction = Sort.Direction.DESC) Pageable pageable){
         return new ResponseEntity<>(sopBoardService.최신게시판(pageable),HttpStatus.OK);
     }
 
@@ -101,5 +103,29 @@ public class SopBoardController {
         System.out.println(tech);
         return new ResponseEntity<>(sopBoardService.테크이미지설정(tech), HttpStatus.OK);
     }
+
+    @PostMapping("/sopBoard/recruitMsg")
+    public ResponseEntity<?> sendMsg(@RequestBody RecruitMsg rm){
+        return new ResponseEntity<>(sopBoardService.맴버신청(rm), HttpStatus.OK);
+    }
+
+    @GetMapping("/sopBoard/recruitMsg/{id}")
+    public ResponseEntity<?> findByMsg(@PathVariable int id) {
+        return new ResponseEntity<>(sopBoardService.지원자가져오기(id), HttpStatus.OK); // 200
+    }
+
+    @PostMapping("/sopBoard/recruitApprove")
+    public ResponseEntity<?> setMember(@RequestBody RecruitMsg rm)
+    {
+        return new ResponseEntity<>(sopBoardService.맴버승인(rm), HttpStatus.OK);
+    }
+
+    @GetMapping("/sopBoard/recruitMemberCheck/{username}")
+    public ResponseEntity<?> CheckRecruit(@PathVariable String username){
+        System.out.println(username);
+        System.out.println("맴버확인@@@@@@@@@@@@@@@@@@@@@@@@@");
+        return new ResponseEntity<>(sopBoardService.맴버확인(username), HttpStatus.OK);
+    }
+
 
 }

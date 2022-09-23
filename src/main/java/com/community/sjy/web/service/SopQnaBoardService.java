@@ -1,8 +1,10 @@
 package com.community.sjy.web.service;
 
 import com.community.sjy.web.model.Board;
+import com.community.sjy.web.model.RecruitMsg;
 import com.community.sjy.web.model.SopQnaBoard;
 import com.community.sjy.web.repository.BoardRepository;
+import com.community.sjy.web.repository.RecruitMsgRepository;
 import com.community.sjy.web.repository.SopQnaBoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,7 +36,6 @@ public class SopQnaBoardService {
                 .orElseThrow(()->new IllegalArgumentException("id를 확인해주세요!!"));
     }
 
-
     @Transactional(readOnly = true)
     public List<SopQnaBoard> 프로필게시판가져오기(String username) {
         System.out.println("한건가져오기 username!!!!!!!!!!!"+ username);
@@ -62,6 +63,7 @@ public class SopQnaBoardService {
         sopQnaBoardRepository.deleteById(id); // 오류가 터지면 익셉션을 타니까.. 신경쓰지 말고
         return "ok";
     }
+
 }
 
 
