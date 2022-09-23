@@ -1,6 +1,7 @@
 package com.community.sjy.web.controller;
 
 import com.community.sjy.web.model.Board;
+import com.community.sjy.web.model.RecruitMsg;
 import com.community.sjy.web.model.SopQnaBoard;
 import com.community.sjy.web.service.BoardService;
 import com.community.sjy.web.service.SopQnaBoardService;
@@ -52,7 +53,6 @@ public class SopQnaBoardController {
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
         return new ResponseEntity<>(sopQnaBoardService.삭제하기(id), HttpStatus.OK); // 200
     }
-
 
 
 }

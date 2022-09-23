@@ -42,6 +42,9 @@ public class StudyOrProjectBoard {
     private int recruitment;
 
     @Column
+    private int recruitment_cnt;
+
+    @Column
     private String Duration_start;
 
     @Column
@@ -59,5 +62,7 @@ public class StudyOrProjectBoard {
     @Column
     private LocalDateTime date;
 
+    @Column
+    private String member;
 
 }

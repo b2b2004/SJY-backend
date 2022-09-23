@@ -12,5 +12,7 @@ import java.util.List;
 public interface SopBoardRepository extends  JpaRepository<StudyOrProjectBoard, Long>{
 
     List<StudyOrProjectBoard>  findByTechStackLike(@Param("Tech") String Tech);
+
+    StudyOrProjectBoard  findByMemberLike(@Param("username") String username);
 }
 

@@ -1,26 +1,16 @@
 package com.community.sjy.web.controller;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.community.sjy.web.config.auth.PrincipalDetail;
-import com.community.sjy.web.dto.ResponseDto;
+import com.community.sjy.web.dto.MailDto;
 import com.community.sjy.web.model.*;
 import com.community.sjy.web.service.BoardService;
+import com.community.sjy.web.service.MailService;
 import com.community.sjy.web.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-
-import javax.websocket.server.PathParam;
-import java.util.Date;
-import java.util.UUID;
 
 
 @Controller
@@ -33,6 +23,9 @@ public class UserController {
 
     @Autowired
     private BoardService boardService;
+
+    @Autowired
+    private MailService mailService;
 
     @GetMapping("/joinForm")
     public String joinForm() {
@@ -100,5 +93,19 @@ public class UserController {
     public ResponseEntity<?> deleteById(@PathVariable Integer id) {
         System.out.println("manager id = " + id);
         return new ResponseEntity<>(userService.삭제하기(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/check/emailandid")
+    public ResponseEntity<?> findEmailAndId(@RequestBody User user) {
+        return new ResponseEntity<>(userService.이메일아이디확인(user.getUsername(), user.getEmail()), HttpStatus.OK);
+    }
+
+    @PostMapping("/check/sendMail")
+    public void sendMail(@RequestBody User user) {
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        System.out.println(user.getUsername());
+        System.out.println(user.getEmail());
+        MailDto dto = mailService.createMailAndChangePassword(user.getUsername(), user.getEmail());
+        mailService.mailSend(dto);
     }
 }

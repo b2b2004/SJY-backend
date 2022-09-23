@@ -74,6 +74,7 @@ public class UserService {
         return "비밀번호 변경 성공";
     }
 
+
     @Transactional
     public String 닉네임수정하기(int userId,String username){
         User userEntity = userRepository.findById(userId)
@@ -96,12 +97,27 @@ public class UserService {
         return user;
     }
 
-
     @Transactional
     public User 프로필이미지삭제(String username){
         User user = userRepository.findByUsername(username);
         System.out.println(user);
         user.setImage(null);
         return user;
+    }
+
+    @Transactional
+    public String 이메일아이디확인(String username, String email){
+        User user = userRepository.findByUsername(username);
+        System.out.println(user);
+        if(user == null)
+        {
+            return "아이디가 존재하지 않습니다.";
+        }
+
+        if(user.getEmail().equals(email) == false)
+        {
+            return "이메일이 존재하지 않습니다.";
+        }
+        return "유저 확인";
     }
 }
