@@ -120,18 +120,19 @@ public class SopBoardController {
         return new ResponseEntity<>(sopBoardService.맴버승인(rm), HttpStatus.OK);
     }
 
-    @GetMapping("/sopBoard/recruitMemberCheck/{username}")
-    public ResponseEntity<?> CheckRecruit(@PathVariable String username){
+    @PostMapping("/sopBoard/recruitMemberCheck/{username}")
+    public ResponseEntity<?> CheckRecruit(@PathVariable String username , @RequestBody Long id){
         System.out.println(username);
         System.out.println("맴버확인@@@@@@@@@@@@@@@@@@@@@@@@@");
-        return new ResponseEntity<>(sopBoardService.맴버확인(username), HttpStatus.OK);
+        return new ResponseEntity<>(sopBoardService.맴버확인(username , id), HttpStatus.OK);
     }
 
     @PostMapping("/sopBoard/deleteMember/{username}")
-    public ResponseEntity<?> deleteMember(@PathVariable String username){
+    public ResponseEntity<?> deleteMember(@PathVariable String username , @RequestBody Long id){
         System.out.println(username);
+        System.out.println(id);
         System.out.println("맴버확인@@@@@@@@@@@@@@@@@@@@@@@@@");
-        return new ResponseEntity<>(sopBoardService.맴버제외(username), HttpStatus.OK);
+        return new ResponseEntity<>(sopBoardService.맴버제외(username,id), HttpStatus.OK);
     }
 
 

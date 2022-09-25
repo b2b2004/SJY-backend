@@ -123,7 +123,15 @@ public class SopBoardService {
                 .orElseThrow(()->new IllegalArgumentException("id check"));
 
         String member = sopEntity.getMember();
-        sopEntity.setMember(member+","+rm.getUsername());
+        if(member != null)
+        {
+            sopEntity.setMember(member+","+rm.getUsername());
+        }
+        else
+        {
+            sopEntity.setMember(rm.getUsername());
+        }
+
         int cnt = sopEntity.getRecruitment_cnt();
         cnt++;
         sopEntity.setRecruitment_cnt(cnt);
@@ -133,31 +141,47 @@ public class SopBoardService {
     }
 
     @Transactional
-    public String 맴버확인(String username)
+    public String 맴버확인(String username , Long id)
     {
-        System.out.println("@@@@@@@@@@@");
-        System.out.println(sopBoardRepository.findByMemberLike("%"+username+"%"));
-        System.out.println("@@@@@@@@@@@");
-        if(sopBoardRepository.findByMemberLike("%"+username+"%") == null)
+        StudyOrProjectBoard sop = sopBoardRepository.findById(id).orElseThrow(()->new IllegalArgumentException("id check"));
+        String member = "";
+        if(sop.getMember() !=null)
         {
-            return "NotMember";
+            member = sop.getMember();
+        }
+
+        System.out.println(member.contains(username));
+        if(member.contains(username))
+        {
+            return "Member";
         }
         else
         {
-            return "Member";
+            return "NotMember";
         }
     }
 
     @Transactional
-    public String 맴버제외(String username)
+    public String 맴버제외(String username, Long id)
     {
-        System.out.println(username);
-        StudyOrProjectBoard sop =  sopBoardRepository.findByMemberLike("%"+username+"%");
+        StudyOrProjectBoard sop = sopBoardRepository.findById(id).orElseThrow(()->new IllegalArgumentException("id check"));
+
         String member = sop.getMember();
-        member.replaceAll(username, "");
-        System.out.println(member);
+        if(member.equals(username)) //한명만 남았을 경우
+        {
+            member = null;
 
+        } //나머지 경우
+        else
+        {
+            member = member.replace(username +",", "");
+            member = member.replace(","+username , "");
+        }
+
+        sop.setMember(member);
+        int cnt = sop.getRecruitment_cnt();
+        cnt--;
+        sop.setRecruitment_cnt(cnt);
             return "Member";
-
     }
 }
