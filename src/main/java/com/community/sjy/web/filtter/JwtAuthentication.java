@@ -35,7 +35,6 @@ private final AuthenticationManager authenticationManager;
             ObjectMapper om = new ObjectMapper();
             User user = om.readValue(request.getInputStream(), User.class);
             System.out.println("JwtAuthentication attempAuthentication 함수 실행 확인");
-            System.out.println(user);
 
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
@@ -46,8 +45,6 @@ private final AuthenticationManager authenticationManager;
                     authenticationManager.authenticate(authenticationToken);
 
             PrincipalDetail principalDetail = (PrincipalDetail) authentication.getPrincipal();
-            System.out.println("로그인 완료 됨 getUsername : " +principalDetail.getUsername());
-
             //authentication 객체가 session 영역에 저장을 해야하고 그 방법이 return 해 주는것임
             // 리턴의 이유는 권한 관리를 security가 대신 해주기 때문에 편하려고 함
             return authentication;
@@ -74,10 +71,6 @@ private final AuthenticationManager authenticationManager;
                 .withClaim("username", principalDetail.getUsername())
                 .withClaim("password", principalDetail.getPassword())
                 .sign(Algorithm.HMAC512("SJY"));
-
-
-        System.out.println("jwt 실행 확인");
-        System.out.println(jwtToken);
           response.setHeader("Authorization", "Bearer "+jwtToken);
           response.setContentType("application/json; charset=utf-8");
     }

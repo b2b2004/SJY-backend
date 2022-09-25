@@ -33,8 +33,6 @@ public class CommentService {
     }
 
     public List<Comment> 댓글가져오기(Long boardid) {
-        System.out.println("한건가져오기 username!!!!!!!!!!!"+ boardid);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+commentRepository.findByboardId(boardid));
         return commentRepository.findByboardId(boardid);
     }
 

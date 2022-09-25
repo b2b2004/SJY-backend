@@ -27,7 +27,6 @@ public class ContestBoardController {
         PrincipalDetail principal = (PrincipalDetail) authentication.getPrincipal();
         contestBoard.setDate(LocalDateTime.now());
         contestBoard.setUsername(principal.getUser().getUsername());
-        System.out.println(authentication);
         return new ResponseEntity<>(contestBoardService.저장하기(contestBoard), HttpStatus.OK);
     }
 
@@ -50,12 +49,15 @@ public class ContestBoardController {
         if(fileDelete.exists()) { // 파일이 존재하면 삭제
             fileDelete.delete();
         }
-        System.out.println("contestimage= "+ contestimage);
         return new ResponseEntity<>(contestBoardService.삭제하기(id), HttpStatus.OK); // 200
     }
 
     @GetMapping("/contestBoard/NewBoard")
     public ResponseEntity<?> NewBoard(@PageableDefault(size = 9, sort = "date", direction = Sort.Direction.DESC) Pageable pageable){
+        return new ResponseEntity<>(contestBoardService.최신게시판(pageable),HttpStatus.OK);
+    }
+    @GetMapping("/contestBoard/PopularBoard")
+    public ResponseEntity<?> PopularBoard(@PageableDefault(size = 9, sort = "hit", direction = Sort.Direction.DESC) Pageable pageable){
         return new ResponseEntity<>(contestBoardService.최신게시판(pageable),HttpStatus.OK);
     }
 

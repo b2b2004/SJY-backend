@@ -41,7 +41,6 @@ public class PrincipalOAuth2Service extends DefaultOAuth2UserService{
         // AccessToken 요청 --> 회원프로필 받아야함(loadUser함수)
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        System.out.println("getAttributes" + oAuth2User.getAttributes());
 
 
         OAuth2UserInfo oAuth2UserInfo = null;
@@ -63,8 +62,6 @@ public class PrincipalOAuth2Service extends DefaultOAuth2UserService{
             System.out.println("구글 네이버 카카오만 지원");
         }
 
-        System.out.println("providerID =" + oAuth2UserInfo.getProviderId());
-        System.out.println("email =" + oAuth2UserInfo.getEmail());
 
         String provider = oAuth2UserInfo.getProvider();
         String providerId = oAuth2UserInfo.getProviderId();
