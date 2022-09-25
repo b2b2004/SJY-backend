@@ -62,7 +62,6 @@ public class UserService {
         String rawPassword = user.password1;
         String encPassword = encoder.encode(rawPassword);
 
-        System.out.println("id = " + id);
         if(encoder.matches(password, principalpw)){
             User userEntity = userRepository.findById(id)
                     .orElseThrow(()->new IllegalArgumentException("pw"));
@@ -79,7 +78,6 @@ public class UserService {
     public String 닉네임수정하기(int userId,String username){
         User userEntity = userRepository.findById(userId)
                 .orElseThrow(()->new IllegalArgumentException("아이디를 잘못 입력"));
-        System.out.println(username);
         userEntity.setUsername(username);
         return "닉네임수정완료";
     }
@@ -92,7 +90,6 @@ public class UserService {
     @Transactional
     public User 프로필이미지저장(String username,String imageName){
         User user = userRepository.findByUsername(username);
-        System.out.println(user);
         user.setImage(imageName);
         return user;
     }
@@ -100,7 +97,6 @@ public class UserService {
     @Transactional
     public User 프로필이미지삭제(String username){
         User user = userRepository.findByUsername(username);
-        System.out.println(user);
         user.setImage(null);
         return user;
     }
@@ -108,7 +104,6 @@ public class UserService {
     @Transactional
     public String 이메일아이디확인(String username, String email){
         User user = userRepository.findByUsername(username);
-        System.out.println(user);
         if(user == null)
         {
             return "아이디가 존재하지 않습니다.";

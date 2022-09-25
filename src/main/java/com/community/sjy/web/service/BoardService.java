@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.community.sjy.web.model.Board;
 import com.community.sjy.web.repository.BoardRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,14 +33,12 @@ public class BoardService {
 
     @Transactional(readOnly = true)
     public List<Board> 프로필게시판가져오기(String username) {
-        System.out.println("한건가져오기 username!!!!!!!!!!!"+ username);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+boardRepository.findByUsername(username));
         return boardRepository.findByUsername(username);
     }
 
     @Transactional(readOnly = true)
     public List<Board> 모두가져오기(){
-        return boardRepository.findAll();
+        return boardRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
     }
 
     @Transactional

@@ -28,9 +28,6 @@ public class BoardController {
 
     @PostMapping("/board")
     public ResponseEntity<?> save(@RequestBody Board board, Authentication authentication) {
-        System.out.println("==============================board");
-        System.out.println(board);
-        System.out.println("authentication.getName() = " + authentication.getName());
         board.setUsername(authentication.getName());
         board.setBoard_date(LocalDateTime.now());
         return new ResponseEntity<>(boardService.저장하기(board), HttpStatus.CREATED); // 200

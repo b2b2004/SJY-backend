@@ -21,7 +21,6 @@ public class PrincipalDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("PrincipalDetailService 동작 확인");
 
         User user = userRepository.findByUsername(username);
         if(user == null) {

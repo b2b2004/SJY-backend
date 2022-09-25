@@ -21,14 +21,12 @@ public class SopQnaCommentController {
     public ResponseEntity<?> save(@RequestBody SopQnaComment sopQnaComment, Authentication authentication){
         sopQnaComment.setUsername(authentication.getName());
         sopQnaComment.setBoard_date(LocalDateTime.now());
-        System.out.println("comment = " +sopQnaComment);
         return new ResponseEntity<>(sopQnaCommentService.저장하기(sopQnaComment), HttpStatus.CREATED);
     }
 
 
     @GetMapping("/sopQnaComment/{boardid}")
     public ResponseEntity<?> findById(@PathVariable Long boardid) {
-        System.out.println("boardid = " + boardid);
         return new ResponseEntity<>(sopQnaCommentService.댓글가져오기(boardid), HttpStatus.OK); // 200
     }
 }

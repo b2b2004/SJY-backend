@@ -7,6 +7,7 @@ import com.community.sjy.web.repository.BoardRepository;
 import com.community.sjy.web.repository.RecruitMsgRepository;
 import com.community.sjy.web.repository.SopQnaBoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,7 +31,7 @@ public class SopQnaBoardService {
         return sopQnaBoardRepository.findBysopboardId(id);
     }
 
-    @Transactional(readOnly = true) // JPA 변경감지라는 내부 기능 활성화 X, update시의 정합성을 유지해줌. insert의 유령데이터현상(팬텀현상) 못막음.
+    @Transactional(readOnly = true)
     public SopQnaBoard 한건가져오기(Long id) {
         return sopQnaBoardRepository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("id를 확인해주세요!!"));
@@ -38,14 +39,12 @@ public class SopQnaBoardService {
 
     @Transactional(readOnly = true)
     public List<SopQnaBoard> 프로필게시판가져오기(String username) {
-        System.out.println("한건가져오기 username!!!!!!!!!!!"+ username);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+sopQnaBoardRepository.findByUsername(username));
         return sopQnaBoardRepository.findByUsername(username);
     }
 
     @Transactional(readOnly = true)
     public List<SopQnaBoard> 모두가져오기(){
-        return sopQnaBoardRepository.findAll();
+        return sopQnaBoardRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
     }
 
     @Transactional

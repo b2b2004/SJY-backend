@@ -20,9 +20,6 @@ public class SopQnaBoardController {
 
     @PostMapping("/sopBoard/qnaboard")
     public ResponseEntity<?> save(@RequestBody SopQnaBoard sopQnaBoard, Authentication authentication) {
-        System.out.println("==============================board");
-        System.out.println(sopQnaBoard);
-        System.out.println("authentication.getName() = " + authentication.getName());
         sopQnaBoard.setUsername(authentication.getName());
         sopQnaBoard.setBoard_date(LocalDateTime.now());
         return new ResponseEntity<>(sopQnaBoardService.저장하기(sopQnaBoard), HttpStatus.CREATED); // 200

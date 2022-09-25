@@ -20,14 +20,12 @@ public class CommentController {
     public ResponseEntity<?> save(@RequestBody Comment comment, Authentication authentication){
         comment.setUsername(authentication.getName());
         comment.setBoard_date(LocalDateTime.now());
-        System.out.println("comment = " +comment);
         return new ResponseEntity<>(commentService.저장하기(comment), HttpStatus.CREATED);
     }
 
 
     @GetMapping("/comment/{boardid}")
     public ResponseEntity<?> findById(@PathVariable Long boardid) {
-        System.out.println("boardid = " + boardid);
         return new ResponseEntity<>(commentService.댓글가져오기(boardid), HttpStatus.OK); // 200
     }
 }

@@ -42,9 +42,7 @@ public class MailService {
 
         String pw = encoder.encode(str);
         User user = userRepository.findByUsername(username);
-        System.out.println("바꾸기전  확인"+ user);
         user.setPassword(pw);
-        System.out.println("바꾼 후 확인"+ user);
         userRepository.save(user);
 
     }

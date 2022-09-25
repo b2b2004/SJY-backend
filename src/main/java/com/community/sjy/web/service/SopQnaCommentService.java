@@ -33,8 +33,6 @@ public class SopQnaCommentService {
     }
 
     public List<SopQnaComment> 댓글가져오기(Long boardid) {
-        System.out.println("한건가져오기 username!!!!!!!!!!!"+ boardid);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+sopQnaCommentRepository.findByboardId(boardid));
         return sopQnaCommentRepository.findByboardId(boardid);
     }
 

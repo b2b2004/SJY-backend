@@ -27,12 +27,9 @@ public class ImageController {
 
 
         try {
-            System.out.println(imageName.startsWith("P"));
-            System.out.println("imageName= " + imageName);
-            System.out.println("multipartFile= " + multipartFiles);
+
 
                 MultipartFile file = multipartFiles;
-                System.out.println("file= " + file);
                 String fileId = imageName;
                 long fileSize = file.getSize(); // 파일 사이즈
 
@@ -40,10 +37,7 @@ public class ImageController {
                 if(!fileSave.exists()) { // 폴더가 없을 경우 폴더 만들기
                     fileSave.mkdirs();
                 }
-
                 file.transferTo(fileSave); // fileSave의 형태로 파일 저장
-                System.out.println("fileId= " + fileId);
-                System.out.println("fileSize= " + fileSize);
 
         } catch(IOException e) {
             return new ResponseEntity<Object>(null, HttpStatus.CONFLICT);
@@ -59,12 +53,7 @@ public class ImageController {
         String UPLOAD_PATH = "C:\\workspace\\springbootwork\\SJY\\SJY-frontend\\src\\image\\ProfileImage"; // 공모전 이미지 업로드 위치
 
         try {
-            System.out.println("imageName= " + username);
-            System.out.println("imageName= " + imageName);
-            System.out.println("multipartFile= " + multipartFiles);
-
             MultipartFile file = multipartFiles;
-            System.out.println("file= " + file);
             String fileId = imageName;
             long fileSize = file.getSize(); // 파일 사이즈
             File fileSave = new File(UPLOAD_PATH, fileId); // ex) fileId.jpg
@@ -73,8 +62,6 @@ public class ImageController {
             }
 
             file.transferTo(fileSave); // fileSave의 형태로 파일 저장
-            System.out.println("fileId= " + fileId);
-            System.out.println("fileSize= " + fileSize);
             userService.프로필이미지저장(username ,imageName);
 
         } catch(IOException e) {

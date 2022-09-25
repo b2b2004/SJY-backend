@@ -48,12 +48,7 @@ public class SopBoardService {
     public SopManageBoard 추가사항가져오기(Long id)
     {
         SopManageBoard sopManageBoardEntity = sopManageBoardRepository.findBysopBoardId(id);
-        System.out.println("```````````````````````sopManageBoardEntity```````````````````````");
-        System.out.println(sopManageBoardEntity);
-
         return sopManageBoardEntity;
-
-//        return sopManageBoardRepository.findBysopBoardId(id);
     }
 
     @Transactional
@@ -95,23 +90,23 @@ public class SopBoardService {
     @Transactional
     public List<StudyOrProjectBoard> 테크이미지설정(String techStack)
     {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!"+techStack);
-        System.out.println(sopBoardRepository.findByTechStackLike("%"+techStack+"%"));
         return sopBoardRepository.findByTechStackLike("%"+techStack+"%");
     }
 
 
     @Transactional
     public RecruitMsg 맴버신청(RecruitMsg rm) {
+        String name = rm.getUsername();
+        long id = rm.getSopboardid();
+        StudyOrProjectBoard sop = sopBoardRepository.findById(id)
+                .orElseThrow(()->new IllegalArgumentException("id check"));
+        sop.setMemberchecking(name);
         return recruitMsgRepository.save(rm);
     }
 
     @Transactional
     public List<RecruitMsg> 지원자가져오기(int id)
     {
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        System.out.println(recruitMsgRepository.findBysopboardid(id));
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         return recruitMsgRepository.findBysopboardid(id);
     }
 
@@ -121,6 +116,9 @@ public class SopBoardService {
         long id = rm.getSopboardid();
         StudyOrProjectBoard sopEntity = sopBoardRepository.findById(id)
                 .orElseThrow(()->new IllegalArgumentException("id check"));
+
+        String member1 = sopEntity.getMemberchecking();
+        member1 = member1.replace(rm.getUsername() , "");
 
         String member = sopEntity.getMember();
         if(member != null)
@@ -135,25 +133,48 @@ public class SopBoardService {
         int cnt = sopEntity.getRecruitment_cnt();
         cnt++;
         sopEntity.setRecruitment_cnt(cnt);
+        sopEntity.setMemberchecking(member1);
         recruitMsgRepository.deleteById(rm.getId());
 
         return "good";
     }
 
     @Transactional
+    public String 맴버거절(RecruitMsg rm)
+    {
+        long id = rm.getId();
+        long sopid = rm.getSopboardid();
+        System.out.println("@@@@@@@@@@@@@" + id);
+        StudyOrProjectBoard sopEntity = sopBoardRepository.findById(sopid)
+                .orElseThrow(()->new IllegalArgumentException("id check"));
+        String username = sopEntity.getMemberchecking();
+        username = username.replace(username , "");
+        sopEntity.setMemberchecking(username);
+        recruitMsgRepository.deleteById(id);
+        return "bad";
+    }
+
+
+
+    @Transactional
     public String 맴버확인(String username , Long id)
     {
         StudyOrProjectBoard sop = sopBoardRepository.findById(id).orElseThrow(()->new IllegalArgumentException("id check"));
+        String mbcheck = sop.getMemberchecking();
+
         String member = "";
         if(sop.getMember() !=null)
         {
             member = sop.getMember();
         }
 
-        System.out.println(member.contains(username));
         if(member.contains(username))
         {
             return "Member";
+        }
+        else if(mbcheck.contains(username))
+        {
+            return "Membercheck";
         }
         else
         {

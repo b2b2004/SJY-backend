@@ -65,4 +65,7 @@ public class StudyOrProjectBoard {
     @Column
     private String member;
 
+    @Column
+    private String memberchecking;
+
 }
