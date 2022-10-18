@@ -37,7 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public BCryptPasswordEncoder encodePWD(){
-
         return new BCryptPasswordEncoder();
     }
 
@@ -63,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception{
 
               http.addFilterBefore(new SecurityFilter(), SecurityContextPersistenceFilter.class);
-              http.csrf().disable(); // csrf 토큰 비활성화 추후에 할수 있으면 열 예정
+              http.csrf().disable();
               http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 세션사용 x
               .and()
               .addFilter(corsFilter) // @CrossOrigin 인증x / 시큐리티 필터에 등록 인증o
@@ -78,7 +77,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
               .authenticated()
                       .and().oauth2Login()
                       .successHandler(oauth2SuccessHandler).userInfoEndpoint().userService(principalOauth2UserService);
-              // 1.코드 받기(인증) 2.엑세스토큰(권한) 3.사용자프로필 정보 가져오기
-              // 4.그 정보를 토대로 회원가입을 자동으로 진행 (이메일, 전화번호, 이름, 아이디)
+
     }
 }

@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.message.StringFormattedMessage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -31,18 +32,13 @@ public class PrincipalOAuth2Service extends DefaultOAuth2UserService{
     @Enumerated(EnumType.STRING)
     private RoleType role;
 
-
     @Autowired
     private UserRepository userRepository;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        // 구글로그인 버튼 클릭 -> 구글 로그인창 -> 로그인 완료 -> code 리턴
-        // AccessToken 요청 --> 회원프로필 받아야함(loadUser함수)
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
-
-
         OAuth2UserInfo oAuth2UserInfo = null;
 
         if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
@@ -55,8 +51,6 @@ public class PrincipalOAuth2Service extends DefaultOAuth2UserService{
         }
         else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")){
             System.out.println("카카오 로그인 요청");
-
-           // oAuth2UserInfo = new KakaoUserInfo((Map)oAuth2User.getAttributes().get("kakao_account"));
             oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
         }else {
             System.out.println("구글 네이버 카카오만 지원");
@@ -66,19 +60,25 @@ public class PrincipalOAuth2Service extends DefaultOAuth2UserService{
         String provider = oAuth2UserInfo.getProvider();
         String providerId = oAuth2UserInfo.getProviderId();
         String email = oAuth2UserInfo.getEmail();
-        // String provider = userRequest.getClientRegistration().getRegistrationId(); // google
-        // String providerId = oAuth2User.getAttribute("sub");
-        // String email = oAuth2User.getAttribute("email");
+
         String username = provider+"_"+providerId; // google_123123123123123
-        String password = "SJY";
+        String rawPassword = "SJY" + (int)(Math.random() * 10000);
+        BCryptPasswordEncoder bpe = new BCryptPasswordEncoder();
+        String encPassword = bpe.encode(rawPassword);
         RoleType role = RoleType.USER;
+
+        System.out.println("소셜로그인 성공!");
+        System.out.println("Name= " + oAuth2UserInfo.getName());
+        System.out.println("email= " + oAuth2UserInfo.getEmail());
+        System.out.println("ProviderId= " + oAuth2UserInfo.getProviderId());
+        System.out.println("Provider= " + oAuth2UserInfo.getProvider());
 
         User userEntity = userRepository.findByUsername(username);
         if(userEntity == null){
 
             userEntity = User.builder()
                     .username(username)
-                    .password(password)
+                    .password(encPassword)
                     .email(email)
                     .role(role)
                     .provider(provider)
