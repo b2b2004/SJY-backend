@@ -22,13 +22,7 @@ public class KakaoUserInfo implements OAuth2UserInfo{
 
     @Override
     public String getUsername() {
-
         return (String) attributes.get("username");
-    }
-
-    @Override
-    public String getPassword() {
-        return (String) attributes.get("id");
     }
 
     @Override

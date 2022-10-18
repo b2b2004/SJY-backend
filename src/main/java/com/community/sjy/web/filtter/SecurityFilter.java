@@ -13,7 +13,6 @@ public class SecurityFilter implements Filter {
         System.out.println("SecurityFilter 실행");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.setHeader("Access-Control-Allow-Methods", "*");
         res.setHeader("Access-Control-Allow-Headers", "*");

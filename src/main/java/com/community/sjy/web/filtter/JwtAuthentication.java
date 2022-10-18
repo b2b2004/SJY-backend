@@ -31,22 +31,13 @@ private final AuthenticationManager authenticationManager;
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
         try{
-
             ObjectMapper om = new ObjectMapper();
             User user = om.readValue(request.getInputStream(), User.class);
-            System.out.println("JwtAuthentication attempAuthentication 함수 실행 확인");
-
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
 
-           // PrincipalDetailsService 의 loadUserByUsername() 함수 실행행
-           // DB에 있는 username과 password가 일치한다.
-            Authentication authentication =
-                    authenticationManager.authenticate(authenticationToken);
-
-            PrincipalDetail principalDetail = (PrincipalDetail) authentication.getPrincipal();
-            //authentication 객체가 session 영역에 저장을 해야하고 그 방법이 return 해 주는것임
-            // 리턴의 이유는 권한 관리를 security가 대신 해주기 때문에 편하려고 함
+            Authentication authentication = authenticationManager.authenticate(authenticationToken);
+            //authentication 객체가 session 영역에 저장을 해야하고 그 방법이 return 해 주는것
             return authentication;
 
         }catch (IOException e){
@@ -59,15 +50,13 @@ private final AuthenticationManager authenticationManager;
     //attemptAuthentication 실행 후 인증이 정상적으로 되었으면 successfulAuthentication 함수가 실행됨
     //JWT 토큰을 만들어서 request 요청한 사용자에게 JWT 토큰을 response 해주면 됨.
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        System.out.println("SuccessfulAuthentication 실행됨 인증완료했다는 뜻임");
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+                                            FilterChain chain, Authentication authResult) throws IOException, ServletException {
         PrincipalDetail principalDetail = (PrincipalDetail) authResult.getPrincipal();
-
-
         //HMAC Hash암호 방식
         String jwtToken = JWT.create()
                 .withSubject(principalDetail.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis()+(60000*1000))) //만료시간 10분 60000*10
+                .withExpiresAt(new Date(System.currentTimeMillis()+(60000*10))) //만료시간 10분
                 .withClaim("username", principalDetail.getUsername())
                 .withClaim("password", principalDetail.getPassword())
                 .sign(Algorithm.HMAC512("SJY"));
